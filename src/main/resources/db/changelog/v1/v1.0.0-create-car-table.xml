@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="20250908125500" author="vanz.evergarden0@gmail.com">
+        <createTable tableName="car">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="car_make" type="VARCHAR(64)"/>
+            <column name="color" type="VARCHAR(64)"/>
+            <column name="license_plate" type="VARCHAR(64)"/>
+            <column name="model" type="VARCHAR(64)"/>
+            <column name="year" type="INTEGER"/>
+            <column name="driver_id" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="car"
+                baseColumnNames="driver_id"
+                constraintName="fk_car_driver"
+                referencedTableName="driver"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

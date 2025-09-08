@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+
+  db-rest-api:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      args:
+        SERVICE_NAME: db-rest-api
+    container_name: db-rest-api
+    environment:
+      DB_URL: jdbc:postgresql://taxi-db/taxi
+      DB_USERNAME: ${BASE_DB_USERNAME}
+      DB_PASSWORD: ${BASE_DB_PASSWORD}
+    ports:
+      - "8081:8081"
+    depends_on:
+      taxi-db:
+        condition: service_healthy
+    networks:
+      - taxi-network
+
+  taxi-db:
+    image: postgres:latest
+    container_name: taxi_db
+    environment:
+      POSTGRES_DB: taxi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - taxi_data:/var/lib/postgresql/data
+    networks:
+      - taxi-network
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+networks:
+  taxi-network:
+    name: taxi-network
+    driver: bridge
+
+volumes:
+  taxi_data:
