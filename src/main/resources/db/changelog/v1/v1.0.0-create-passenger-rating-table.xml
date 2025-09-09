@@ -8,7 +8,7 @@
 
     <changeSet id="20250908121500" author="vanz.evergarden0@gmail.com">
         <createTable tableName="passenger_rating">
-            <column name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="comment" type="VARCHAR(255)"/>

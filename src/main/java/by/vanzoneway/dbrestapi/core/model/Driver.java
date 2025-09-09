@@ -6,11 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "passenger")
+@Table(name = "driver")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Passenger {
+public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,29 +36,24 @@ public class Passenger {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
     @Column(name = "average_rating")
     private Integer averageRating;
 
-    @OneToOne(mappedBy = "passenger", cascade = CascadeType.ALL)
-    private PassengerCredentials credentials;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
-    @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
+    @Column(name = "driver_license_category")
+    private String driverLicenseCategory;
+
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<PassengerRating> ratings = new ArrayList<>();
+    private List<DriverRating> ratings = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "bonus_passenger",
-            joinColumns = @JoinColumn(name = "passenger_id"),
-            inverseJoinColumns = @JoinColumn(name = "bonus_id")
-    )
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<Bonus> bonuses = new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
 
-    @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
     @Builder.Default
     private List<Ride> rides = new ArrayList<>();
 }
