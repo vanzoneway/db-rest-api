@@ -62,7 +62,7 @@ public class Passenger {
     @Builder.Default
     private List<Bonus> bonuses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "passenger", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Builder.Default
     private List<Ride> rides = new ArrayList<>();
 }

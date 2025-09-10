@@ -8,6 +8,9 @@
 
     <changeSet id="20250908131500" author="vanz.evergarden0@gmail.com">
         <createTable tableName="rides">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
             <column name="passenger_id" type="BIGINT"/>
             <column name="driver_id" type="BIGINT"/>
             <column name="departure_address" type="VARCHAR(255)"/>

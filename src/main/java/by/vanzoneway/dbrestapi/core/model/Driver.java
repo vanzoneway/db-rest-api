@@ -53,7 +53,7 @@ public class Driver {
     @Builder.Default
     private List<Car> cars = new ArrayList<>();
 
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "driver", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Builder.Default
     private List<Ride> rides = new ArrayList<>();
 }
