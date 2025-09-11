@@ -1,6 +1,7 @@
 package by.vanzoneway.dbrestapi.api.error;
 
 
+import by.vanzoneway.dbrestapi.core.exception.BonusPassengerAlreadyAssosiated;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
@@ -67,7 +68,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handle409(DataIntegrityViolationException ex) {
         ErrorResponse errorResponse = new ErrorResponse(
-                "Data integrity violation. Please check your input data.",
+                ex.getMessage(),
+                null,
+                HttpStatus.CONFLICT.value()
+        );
+
+        log.warn("Data integrity violation: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(BonusPassengerAlreadyAssosiated.class)
+    public ResponseEntity<ErrorResponse> handle409x(BonusPassengerAlreadyAssosiated ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                ex.getMessage(),
                 null,
                 HttpStatus.CONFLICT.value()
         );
